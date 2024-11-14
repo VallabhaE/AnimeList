@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include("header.ejs") %>
+<body>
+    <!-- NavBar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/"><img width="40px" src="https://scontent.fblr15-1.fna.fbcdn.net/v/t39.30808-6/300250690_473292054813222_4605153368002568151_n.png?_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=1iM5YiKP0oIQ7kNvgED4oxS&_nc_zt=23&_nc_ht=scontent.fblr15-1.fna&_nc_gid=AIa9L9gVxSjbg_TB1SVbGro&oh=00_AYA-9p6FRbqwjGPmcNznUH7vQG-FbQm4rhEN3fHiEak51w&oe=673B6F28" alt=""></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            FilterData
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="/adv">Adventure</a></li>
+                            <li><a class="dropdown-item" href="#">More</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">More</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form action="/search" method="POST" class="d-flex">
+                    <input class="form-control me-2" type="search" name="searchData" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+    <!-- NavBar Ended -->
+
+    <!-- ShowCase Some images -->
+    <% if (!locals.dataIn) { %>
+        <!-- Carousel code for images (if no data) -->
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div style="width: 100%;" class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="images/image1.jfif" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="images/image2.jfif" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="images/image3.jpg" class="d-block w-100" alt="...">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    <% } else { %>
+        <!-- Display Anime Data as Cards -->
+        <div class="container mt-4">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <% dataIn.data.forEach(anime => { %>
+                    <div class="col">
+                        <div class="card" style="width: 18rem;">
+                            <img src="<%= anime.attributes.posterImage.small %>" class="card-img-top" alt="<%= anime.attributes.canonicalTitle %>">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= anime.attributes.canonicalTitle %></h5>
+                                <p class="card-text"><%= anime.attributes.synopsis.length > 100 ? anime.attributes.synopsis.substring(0, 100) + '...' : anime.attributes.synopsis %></p>
+                                <a href="https://kitsu.io/anime/<%= anime.id %>" class="btn btn-primary" target="_blank">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+    <% } %>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
